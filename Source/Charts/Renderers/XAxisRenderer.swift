@@ -189,10 +189,16 @@ open class XAxisRenderer: AxisRendererBase
             let paraStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
         #endif
         paraStyle.alignment = .center
-        
-        let labelAttrs: [NSAttributedStringKey : Any] = [NSAttributedStringKey.font: xAxis.labelFont,
+
+        var labelAttrs: [NSAttributedStringKey : Any];
+        if let attrs = xAxis.labelAttributes {
+            labelAttrs = attrs;
+            labelAttrs[NSAttributedStringKey.paragraphStyle] = paraStyle
+        } else {
+            labelAttrs = [NSAttributedStringKey.font: xAxis.labelFont,
             NSAttributedStringKey.foregroundColor: xAxis.labelTextColor,
             NSAttributedStringKey.paragraphStyle: paraStyle]
+        }
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         
         let centeringEnabled = xAxis.isCenterAxisLabelsEnabled

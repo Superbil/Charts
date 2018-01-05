@@ -41,6 +41,14 @@ open class XAxisRendererRadarChart: XAxisRenderer
         
         let labelFont = xAxis.labelFont
         let labelTextColor = xAxis.labelTextColor
+
+        var labelAttrs: [NSAttributedStringKey : Any]
+        if let attrs = xAxis.labelAttributes {
+            labelAttrs = attrs
+        } else {
+            labelAttrs = [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor]
+        }
+
         let labelRotationAngleRadians = xAxis.labelRotationAngle * ChartUtils.Math.FDEG2RAD
         let drawLabelAnchor = CGPoint(x: 0.5, y: 0.25)
         
@@ -64,7 +72,7 @@ open class XAxisRendererRadarChart: XAxisRenderer
                       formattedLabel: label,
                       x: p.x,
                       y: p.y - xAxis.labelRotatedHeight / 2.0,
-                      attributes: [NSAttributedStringKey.font: labelFont, NSAttributedStringKey.foregroundColor: labelTextColor],
+                      attributes: labelAttrs,
                       anchor: drawLabelAnchor,
                       angleRadians: labelRotationAngleRadians)
         }
